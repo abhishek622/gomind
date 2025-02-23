@@ -27,14 +27,15 @@ func NewRepository() *Repository {
 // GetNextID generates the next unique ID
 func (r *Repository) GetNextID() (int64, error) {
 	// Define a filter to sort by _id in descending order and limit to 1 result
-	opts := options.FindOne().SetSort(bson.M{"_id": -1})
+	opts := options.FindOne().SetSort(bson.D{{Key: "_id", Value: -1}}).SetProjection(bson.D{{Key: "_id", Value: 1}})
 
+	filter := bson.D{}
 	var result struct {
 		ID int64 `bson:"_id"`
 	}
 
 	// Find the document with the maximum _id
-	err := r.Collection.FindOne(context.TODO(), bson.M{}, opts).Decode(&result)
+	err := r.Collection.FindOne(context.TODO(), filter, opts).Decode(&result)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
 			return 1, nil // If no documents exist, start from 1
