@@ -1,41 +1,73 @@
+# Task Manager CLI
+
+A command-line application built in Go to manage tasks efficiently. This project integrates with MongoDB for data storage, leverages GPT-3 for task generation, and uses the Cobra library to create a robust CLI interface. Tasks are displayed in a clean, tabular format for better readability.
+
 # PROJECT GOAL
 
-- Read/write data file system
-- Printing data in tabular format
+- [x] Read/write tasks from mongoDB (mongodb)
+- [ ] Use GPT-3 to generate tasks
+- [x] Use cobra to build CLI (cobra)
+- [x] Printing data in tabular format (text/tabwriter)
+- [x] Print time in human readable format (timediff)
 - CLI App with multiple command
-  - add
-  - complete
-  - delete
-  - help
-  - list
-
-# Implementation
-
-- Use CSV to store data (encoding/csv)
-- To print text into tabular format (text/tabwriter)
-- To print time in human readable format (timediff)
-- To build command-line interface (cobra)
+  - [x] add
+  - [x] complete
+  - [ ] delete
+  - [x] help
+  - [x] list
+  - [ ] generate (GPT-3)
 
 # Project structure
 
 ```
-todo-cli/
-├── cmd/
-│ ├── root.go # Root command for Cobra
-│ ├── add.go # Add command for adding todos
-│ ├── list.go # List command for listing todos
-│ ├── complete.go # Complete command for marking todos as completed
-│ └── delete.go # Delete command for deleting todos
-├── internal/
-│ ├── todo/
-│ │ ├── todo.go # Todo-related logic (e.g., struct, CRUD operations)
-│ │ └── storage.go # Storage logic (e.g., reading/writing JSON file)
-│ └── utils/
-│   └── time.go # Time-related utilities (e.g., formatting, timediff)
-├── data/
-│ └── todos.json # JSON file to store todos
-├── go.mod # Go module file
-├── go.sum # Go dependencies checksum file
-├── main.go # Entry point of the application
-└── README.md # Project documentation
+gomind/
+│── cmd/               # CLI command handlers
+│   ├── add.go         # Handles adding a task
+│   ├── list.go        # Handles listing tasks
+│   ├── complete.go    # Handles marking tasks as complete
+│   └── root.go        # Root command setup
+│── helper/          # Core Application Logic 
+│   ├── gpt/           # GPT Integration
+│   │   ├── parser.go  # Handles GPT parsing of natural language
+│   │   └── client.go  # OpenAI API interaction
+│   └── task/          # Task Management Logic
+│       ├── task.go    # Task struct & related methods
+│       ├── manager.go # Task CRUD operations (Add, Delete, Update)
+│       └── storage.go # Handles saving/loading tasks (MongoDB)
+│── utils/             # Utility functions (Reusable across project)
+│   ├── logger/        # Logging utilities
+│   ├── timeparser/    # Parses natural language dates (e.g., "tomorrow 5 PM")
+│   └── config/        # Configuration utilities (API keys, env vars)
+│── .env               # Environment variables
+│── go.mod             # Go module file
+│── go.sum             # Go dependencies
+│── main.go            # Application entry point
 ```
+
+## Getting Started
+
+### Prerequisites
+
+- Go installed on your machine.
+- MongoDB instance running locally or remotely.
+- OpenAI API key for GPT-3 integration.
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/abhishek622/gomind.git
+   ```
+2. Build the application:
+   ```bash
+   go build -o gomind main.go
+   ```
+3. Use the CLI commands to manage tasks.
+  ```bash
+  ./gomind help # List of commands
+  ./gomind add "Buy groceries" # Add a task
+  ./gomind list # List all tasks
+  ./gomind complete 1 # Mark task as complete
+  ./gomind delete 1 # Delete a task
+  ./gomind generate "Lunch at 4pm after that study for 2hrs" # Generate a task using GPT-3
+  ```

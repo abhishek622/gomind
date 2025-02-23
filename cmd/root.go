@@ -1,15 +1,37 @@
 package cmd
 
-import "github.com/spf13/cobra"
+import (
+	"abhishek622/gomind/utils"
+	"fmt"
+	"os"
 
-var rootCmd = &cobra.Command{
-	Use:   "todo",
-	Short: "A Simple CLI todo app",
-	Long:  "A CLI app to manage your todos.",
+	"github.com/spf13/cobra"
+)
+
+// RootCmd is the base command for the CLI
+var RootCmd = &cobra.Command{
+	Use:   "gomind",
+	Short: "A CLI-based todo application",
+	Long:  "Go mind allows you to manage tasks with natural language processing.",
 }
 
+// preRunCheck ensures config and DB are ready before running commands
+func preRunCheck(cmd *cobra.Command, args []string) {
+	utils.LoadConfig()
+	utils.ConnectDB()
+}
+
+// Initialize CLI
 func Execute() {
-	if err := rootCmd.Execute(); err != nil {
-		panic(err)
+	if err := RootCmd.Execute(); err != nil {
+		fmt.Println("Error:", err)
+		os.Exit(1)
 	}
+}
+
+func init() {
+	// Add subcommands to RootCmd
+	RootCmd.AddCommand(AddCmd)
+	RootCmd.AddCommand(ListCmd)
+	RootCmd.AddCommand(CompleteCmd)
 }

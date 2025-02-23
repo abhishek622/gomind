@@ -1,7 +1,9 @@
 package main
 
-import "abhishek622/gomind/cmd"
+import (
+	"abhishek622/gomind/cmd"
+)
 
 func main() {
-	cmd.Execute()
+	cmd.Execute() // Run the CLI
 }

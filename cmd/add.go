@@ -1,45 +1,41 @@
 package cmd
 
 import (
-	"abhishek622/gomind/helper/todo"
+	"abhishek622/gomind/helper/task"
 	"fmt"
 
 	"github.com/spf13/cobra"
 )
 
-var addCmd = &cobra.Command{
-	Use:   "add",
-	Short: "Add a new todo",
-	Long:  `Add a new todo to the list.`,
-	Args:  cobra.ExactArgs(1), // Ensure exactly one argument (the task) is provided
+var AddCmd = &cobra.Command{
+	Use:    "add",
+	Short:  "Add a new task",
+	Args:   cobra.ExactArgs(1), // Ensure exactly one argument (the task) is provided
+	PreRun: preRunCheck,        // Ensure config & DB check only when needed
 	Run: func(cmd *cobra.Command, args []string) {
 		// get task from the cmd args
-		task := args[0]
+		description := args[0]
 
-		// Load existing todos
-		todos, err := todo.ReadTodos()
+		priorityStr, _ := cmd.Flags().GetString("priority")
+		priority := task.Priority(priorityStr)
+
+		newTask := task.Task{
+			Description: description,
+			Priority:    priority,
+			Completed:   false,
+		}
+
+		repo := task.NewRepository()
+		err := repo.CreateTask(&newTask)
 		if err != nil {
-			fmt.Println("Error reading todos:", err)
+			fmt.Println("Failed to add task:", err)
 			return
 		}
 
-		// Create a new todo
-		newTodo := todo.NewTodo(task)
-
-		// Add the new todo to the list
-		todos = append(todos, *newTodo)
-
-		// Save the updated list back to db
-		err = todo.WriteTodos(todos)
-		if err != nil {
-			fmt.Println("Error saving todos:", err)
-			return
-		}
-
-		fmt.Printf("Added new todos: %s\n", task)
+		fmt.Printf("Task added successfully!")
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(addCmd)
+	AddCmd.Flags().StringP("priority", "p", "Medium", "Set task priority: High, Medium, or Low")
 }
