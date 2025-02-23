@@ -34,4 +34,5 @@ func init() {
 	RootCmd.AddCommand(AddCmd)
 	RootCmd.AddCommand(ListCmd)
 	RootCmd.AddCommand(CompleteCmd)
+	RootCmd.AddCommand(DeleteTaskCmd)
 }

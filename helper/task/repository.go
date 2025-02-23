@@ -9,6 +9,7 @@ import (
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 // Repository provides an interface to interact with the database
@@ -25,20 +26,24 @@ func NewRepository() *Repository {
 
 // GetNextID generates the next unique ID
 func (r *Repository) GetNextID() (int64, error) {
-	var result struct {
-		MaxID int64 `bson:"max_id"`
-	}
-	err := r.Collection.FindOne(context.TODO(), bson.M{}, nil).
-		Decode(&result)
+	// Define a filter to sort by _id in descending order and limit to 1 result
+	opts := options.FindOne().SetSort(bson.M{"_id": -1})
 
+	var result struct {
+		ID int64 `bson:"_id"`
+	}
+
+	// Find the document with the maximum _id
+	err := r.Collection.FindOne(context.TODO(), bson.M{}, opts).Decode(&result)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
-			return 1, nil // Start from 1 if no tasks exist
+			return 1, nil // If no documents exist, start from 1
 		}
-		return 0, err
+		return 0, err // Return any other error
 	}
 
-	return result.MaxID + 1, nil
+	// Return the next ID
+	return result.ID + 1, nil
 }
 
 func (r *Repository) CreateTask(task *Task) error {
@@ -46,6 +51,7 @@ func (r *Repository) CreateTask(task *Task) error {
 	if err != nil {
 		return err
 	}
+
 	task.ID = nextID
 	task.CreatedAt = time.Now()
 	task.UpdatedAt = time.Now()
@@ -89,4 +95,34 @@ func (r *Repository) MarkAsCompleted(todoID int64) error {
 	}
 
 	return nil
+}
+
+func (r *Repository) DeleteATask(todoID int64) error {
+	filter := bson.M{"_id": todoID}
+	_, err := r.Collection.DeleteOne(context.TODO(), filter)
+	if err != nil {
+		return fmt.Errorf("failed to delete a task: %v", err)
+	}
+
+	return nil
+}
+
+func (r *Repository) DeleteAllTask() error {
+	_, err := r.Collection.DeleteMany(context.TODO(), bson.M{})
+	if err != nil {
+		return fmt.Errorf("failed to delete all tasks: %v", err)
+	}
+
+	return nil
+}
+
+func (r *Repository) CheckDependenciesExist(depIDs []int64) bool {
+	filter := bson.M{"_id": bson.M{"$in": depIDs}}
+	count, err := r.Collection.CountDocuments(context.TODO(), filter)
+	if err != nil {
+		fmt.Println("Database error while checking dependencies:", err)
+		return false
+	}
+
+	return count == int64(len(depIDs))
 }

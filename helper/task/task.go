@@ -19,7 +19,7 @@ type Task struct {
 	Category     string    `bson:"category"`
 	Priority     Priority  `bson:"priority"`
 	DueDate      time.Time `bson:"due_date,omitempty"`
-	Dependencies []string  `bson:"dependencies,omitempty"`
+	Dependencies []int64   `bson:"dependencies,omitempty"`
 	Completed    bool      `bson:"completed"`
 	CreatedAt    time.Time `bson:"created_at"`
 	UpdatedAt    time.Time `bson:"updated_at"`

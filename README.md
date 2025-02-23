@@ -9,13 +9,6 @@ A command-line application built in Go to manage tasks efficiently. This project
 - [x] Use cobra to build CLI (cobra)
 - [x] Printing data in tabular format (text/tabwriter)
 - [x] Print time in human readable format (timediff)
-- [ ] CLI App with multiple command
-  - [x] add
-  - [x] complete
-  - [ ] delete
-  - [x] help
-  - [x] list
-  - [ ] generate (GPT-3)
 
 # Project structure
 
@@ -73,10 +66,10 @@ gomind/
    ./gomind list # List all tasks
    ```
    ```bash
-   ./gomind complete 1 # Mark task as complete
+   ./gomind complete 1 # Mark task as complete (ID: 1)
    ```
    ```bash
-   ./gomind delete 1 # Delete a task
+   ./gomind delete 1 # Delete a task (ID: 1 || all)
    ```
    ```bash
    ./gomind generate "Lunch at 4pm after that study for 2hrs" # Generate a task using GPT-3

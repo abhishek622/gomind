@@ -2,7 +2,6 @@ package utils
 
 import (
 	"context"
-	"fmt"
 	"log"
 
 	"go.mongodb.org/mongo-driver/mongo"
@@ -35,7 +34,7 @@ func ConnectDB() {
 	}
 
 	DB = client.Database(dbName)
-	fmt.Println("Connected to MongoDB...")
+	// fmt.Println("Connected to MongoDB...")
 }
 
 func GetCollection(collectionName string) *mongo.Collection {
