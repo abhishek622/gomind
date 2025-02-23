@@ -63,21 +63,21 @@ gomind/
    go build -o gomind main.go
    ```
 3. Use the CLI commands to manage tasks.
-  ```bash
-  ./gomind help # List of commands
-  ```
-  ```bash
-  ./gomind add "Buy groceries" # Add a task
-  ```
-  ```bash
-  ./gomind list # List all tasks
-  ```
-  ```bash
-  ./gomind complete 1 # Mark task as complete
-  ```
-  ```bash
-  ./gomind delete 1 # Delete a task
-  ```
-  ```bash
-  ./gomind generate "Lunch at 4pm after that study for 2hrs" # Generate a task using GPT-3
-  ```
+   ```bash
+   ./gomind help # List of commands
+   ```
+   ```bash
+   ./gomind add "Buy groceries" # Add a task
+   ```
+   ```bash
+   ./gomind list # List all tasks
+   ```
+   ```bash
+   ./gomind complete 1 # Mark task as complete
+   ```
+   ```bash
+   ./gomind delete 1 # Delete a task
+   ```
+   ```bash
+   ./gomind generate "Lunch at 4pm after that study for 2hrs" # Generate a task using GPT-3
+   ```
