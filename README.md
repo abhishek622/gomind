@@ -32,10 +32,10 @@ Ensure you have the following installed and configured:
    echo DB_NAME=your-table-name-here > .env
 
    # MongoDB URI
-   echo MONGODB_URI=your-mongodb-uri-here >> .env
+   echo MONGODB_URI=your-mongodb-uri-here > .env
 
    # AWANLLM API Key
-   echo AWANLLM_API_KEY=your-key-here >> .env
+   echo AWANLLM_API_KEY=your-key-here > .env
    ```
 3. **Build the application:**
    ```bash
