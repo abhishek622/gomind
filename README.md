@@ -10,6 +10,9 @@ A command-line application built in Go to manage tasks efficiently. This project
 - [x] Printing data in tabular format (text/tabwriter)
 - [x] Print time in human readable format (timediff)
 
+## DEMO
+![GOMind Demo](https://github.com/abhishek622/gomind/blob/main/assets/demo.gif?raw=true)
+
 ## Getting Started
 
 ### Prerequisites
