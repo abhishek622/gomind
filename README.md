@@ -1,40 +1,14 @@
 # Task Manager CLI
 
-A command-line application built in Go to manage tasks efficiently. This project integrates with MongoDB for data storage, leverages GPT-3 for task generation, and uses the Cobra library to create a robust CLI interface. Tasks are displayed in a clean, tabular format for better readability.
+A command-line application built in Go to manage tasks efficiently. This project integrates with MongoDB for data storage, leverages AWANLLM for task generation, and uses the Cobra library to create a robust CLI interface. Tasks are displayed in a clean, tabular format for better readability.
 
 # PROJECT GOAL
 
 - [x] Read/write tasks from mongoDB (mongodb)
-- [x] Use GPT-3 to generate tasks
+- [x] Use AWANLLM to generate tasks
 - [x] Use cobra to build CLI (cobra)
 - [x] Printing data in tabular format (text/tabwriter)
 - [x] Print time in human readable format (timediff)
-
-# Project structure
-
-```
-gomind/
-│── cmd/               # CLI command handlers
-│   ├── add.go         # Handles adding a task
-│   ├── list.go        # Handles listing tasks
-│   ├── complete.go    # Handles marking tasks as complete
-│   └── root.go        # Root command setup
-│── helper/          # Core Application Logic 
-│   ├── gpt/           # GPT Integration
-│   │   └── client.go  # OpenAI API interaction
-│   └── task/          # Task Management Logic
-│       ├── task.go    # Task struct & related methods
-│       ├── manager.go # Task CRUD operations (Add, Delete, Update)
-│       └── storage.go # Handles saving/loading tasks (MongoDB)
-│── utils/             # Utility functions (Reusable across project)
-│   ├── logger/        # Logging utilities
-│   ├── timeparser/    # Parses natural language dates (e.g., "tomorrow 5 PM")
-│   └── config/        # Configuration utilities (API keys, env vars)
-│── .env               # Environment variables
-│── go.mod             # Go module file
-│── go.sum             # Go dependencies
-│── main.go            # Application entry point
-```
 
 ## Getting Started
 
@@ -42,7 +16,7 @@ gomind/
 
 - Go installed on your machine.
 - MongoDB instance running locally or remotely.
-- OpenAI API key for GPT-3 integration.
+- AWANLLM API key for generating tasks.
 
 ### Installation
 
@@ -50,11 +24,22 @@ gomind/
    ```bash
    git clone https://github.com/abhishek622/gomind.git
    ```
-2. Build the application:
+2. Set the environment variables:
+   ```bash
+   # Set up your MongoDB table name
+   echo DB_NAME=your-table-name-here > .env
+
+   # Set up your MongoDB URI
+   echo MONGODB_URI=your-mongodb-uri-here > .env
+
+   # Set up your OpenAI key
+   echo "AWANLLM_API_KEY=your-key-here" > .env
+   ```
+3. Build the application:
    ```bash
    go build -o gomind main.go
    ```
-3. Use the CLI commands to manage tasks.
+4. Use the CLI commands to manage tasks.
    ```bash
    ./gomind help # List of commands
    ```
@@ -68,8 +53,8 @@ gomind/
    ./gomind complete 1 # Mark task as complete (ID: 1)
    ```
    ```bash
-   ./gomind delete 1 # Delete a task (ID: 1 || all)
+   ./gomind del 1 # Delete a task (ID: 1 || all)
    ```
    ```bash
-   ./gomind generate "Lunch at 4pm after that study for 2hrs" # Generate a task using GPT-3
+   ./gomind gen "Lunch at 4pm after that study for 2hrs" # Generate a task using AWANLLM
    ```

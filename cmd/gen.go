@@ -30,7 +30,7 @@ var GenCmd = &cobra.Command{
 
 		// Check if tasks were actually generated
 		if len(taskList) == 0 {
-			fmt.Println("⚠️ No tasks were generated. Try refining your input!")
+			fmt.Println("No tasks were generated. Try refining your input!")
 			return
 		}
 

@@ -16,12 +16,12 @@ var ListCmd = &cobra.Command{
 		repo := task.NewRepository()
 		tasks, err := repo.GetTasks()
 		if err != nil {
-			fmt.Println("Error fetching tasks:", err)
+			fmt.Println("⚠️ Error fetching tasks:", err)
 			return
 		}
 
 		if len(tasks) == 0 {
-			fmt.Println("No tasks found.")
+			fmt.Println("❌ No tasks found.")
 			return
 		}
 

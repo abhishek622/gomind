@@ -98,9 +98,11 @@ func (r *Repository) MarkAsCompleted(todoID int64) error {
 	return nil
 }
 
-func (r *Repository) DeleteATask(todoID int64) error {
-	filter := bson.M{"_id": todoID}
-	_, err := r.Collection.DeleteOne(context.TODO(), filter)
+func (r *Repository) DeleteTasks(taskIDs []int64) error {
+	filter := bson.M{"_id": bson.M{"$in": taskIDs}}
+
+	// Delete multiple documents
+	_, err := r.Collection.DeleteMany(context.TODO(), filter)
 	if err != nil {
 		return fmt.Errorf("failed to delete a task: %v", err)
 	}

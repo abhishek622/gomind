@@ -64,7 +64,7 @@ var AddCmd = &cobra.Command{
 			return
 		}
 
-		fmt.Printf("Task added successfully!")
+		fmt.Printf("✅ Task added successfully!")
 	},
 }
 

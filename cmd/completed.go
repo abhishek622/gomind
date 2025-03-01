@@ -27,7 +27,7 @@ var CompleteCmd = &cobra.Command{
 			return
 		}
 
-		fmt.Println("Task marked as completed")
+		fmt.Println("✅ Task marked as completed")
 
 	},
 }
