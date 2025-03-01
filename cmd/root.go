@@ -35,4 +35,5 @@ func init() {
 	RootCmd.AddCommand(ListCmd)
 	RootCmd.AddCommand(CompleteCmd)
 	RootCmd.AddCommand(DeleteTaskCmd)
+	RootCmd.AddCommand(GenCmd)
 }

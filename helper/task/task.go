@@ -14,13 +14,12 @@ const (
 )
 
 type Task struct {
-	ID           int64     `bson:"_id"`
-	Description  string    `bson:"description"`
-	Category     string    `bson:"category"`
-	Priority     Priority  `bson:"priority"`
-	DueDate      time.Time `bson:"due_date,omitempty"`
-	Dependencies []int64   `bson:"dependencies,omitempty"`
-	Completed    bool      `bson:"completed"`
-	CreatedAt    time.Time `bson:"created_at"`
-	UpdatedAt    time.Time `bson:"updated_at"`
+	ID          int64     `bson:"_id"`
+	Description string    `bson:"description"`
+	Category    string    `bson:"category"`
+	Priority    Priority  `bson:"priority"`
+	DueDate     time.Time `bson:"due_date,omitempty"`
+	Completed   bool      `bson:"completed"`
+	CreatedAt   time.Time `bson:"created_at"`
+	UpdatedAt   time.Time `bson:"updated_at"`
 }

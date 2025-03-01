@@ -117,13 +117,32 @@ func (r *Repository) DeleteAllTask() error {
 	return nil
 }
 
-func (r *Repository) CheckDependenciesExist(depIDs []int64) bool {
-	filter := bson.M{"_id": bson.M{"$in": depIDs}}
-	count, err := r.Collection.CountDocuments(context.TODO(), filter)
+func (r *Repository) InsertBulkTask(tasks []Task) error {
+	nextID, err := r.GetNextID()
 	if err != nil {
-		fmt.Println("Database error while checking dependencies:", err)
-		return false
+		return err
 	}
 
-	return count == int64(len(depIDs))
+	var taskDocs []any
+	for idx, task := range tasks {
+		taskDocs = append(taskDocs, bson.D{
+			{Key: "_id", Value: nextID + int64(idx)},
+			{Key: "description", Value: task.Description},
+			{Key: "category", Value: task.Category},
+			{Key: "priority", Value: task.Priority},
+			{Key: "due_date", Value: task.DueDate},
+			{Key: "completed", Value: task.Completed},
+			{Key: "created_at", Value: task.CreatedAt},
+			{Key: "updated_at", Value: task.UpdatedAt},
+		})
+	}
+
+	result, err := r.Collection.InsertMany(context.TODO(), taskDocs)
+	if err != nil {
+		log.Println("❌ Error inserting tasks:", err)
+		return err
+	}
+
+	fmt.Println("✅ Successfully inserted tasks with IDs:", result.InsertedIDs)
+	return nil
 }

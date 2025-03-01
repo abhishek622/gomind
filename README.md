@@ -5,7 +5,7 @@ A command-line application built in Go to manage tasks efficiently. This project
 # PROJECT GOAL
 
 - [x] Read/write tasks from mongoDB (mongodb)
-- [ ] Use GPT-3 to generate tasks
+- [x] Use GPT-3 to generate tasks
 - [x] Use cobra to build CLI (cobra)
 - [x] Printing data in tabular format (text/tabwriter)
 - [x] Print time in human readable format (timediff)
@@ -21,7 +21,6 @@ gomind/
 │   └── root.go        # Root command setup
 │── helper/          # Core Application Logic 
 │   ├── gpt/           # GPT Integration
-│   │   ├── parser.go  # Handles GPT parsing of natural language
 │   │   └── client.go  # OpenAI API interaction
 │   └── task/          # Task Management Logic
 │       ├── task.go    # Task struct & related methods

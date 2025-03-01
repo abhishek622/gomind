@@ -8,9 +8,9 @@ import (
 )
 
 type Config struct {
-	MONGODB_URI string
-	DB_NAME     string
-	GPT_API_KEY string
+	MONGODB_URI     string
+	DB_NAME         string
+	AWANLLM_API_KEY string
 }
 
 var AppConfig *Config
@@ -22,8 +22,8 @@ func LoadConfig() {
 	}
 
 	AppConfig = &Config{
-		MONGODB_URI: os.Getenv("MONGODB_URI"),
-		DB_NAME:     os.Getenv("DB_NAME"),
-		GPT_API_KEY: os.Getenv("GPT_API_KEY"),
+		MONGODB_URI:     os.Getenv("MONGODB_URI"),
+		DB_NAME:         os.Getenv("DB_NAME"),
+		AWANLLM_API_KEY: os.Getenv("AWANLLM_API_KEY"),
 	}
 }

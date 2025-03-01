@@ -3,8 +3,6 @@ package cmd
 import (
 	"abhishek622/gomind/helper/task"
 	"fmt"
-	"strconv"
-	"strings"
 	"time"
 
 	"github.com/spf13/cobra"
@@ -14,10 +12,9 @@ import (
 var category string
 var priority string
 var dueDate string
-var dependencies string
 
 var AddCmd = &cobra.Command{
-	Use:    "add [-c category] [-p priority] [-d YYYY-MM-DD] [-x dependencies]",
+	Use:    "add [-c category] [-p priority] [-d YYYY-MM-DD]",
 	Short:  "Add a new task",
 	Args:   cobra.MinimumNArgs(1),
 	PreRun: preRunCheck, // Ensure config & DB check only when needed
@@ -53,33 +50,12 @@ var AddCmd = &cobra.Command{
 
 		repo := task.NewRepository()
 
-		var deps []int64
-		if dependencies != "" {
-			depStrs := strings.Split(dependencies, ",")
-			for _, dep := range depStrs {
-				depID, err := strconv.ParseInt(strings.TrimSpace(dep), 10, 64)
-				if err != nil {
-					fmt.Printf("Error: Invalid dependency ID '%s'. Must be an integer.\n", dep)
-					return
-				}
-
-				deps = append(deps, depID)
-			}
-
-			// check if parent tasks are present or not
-			if !repo.CheckDependenciesExist(deps) {
-				fmt.Println("Error: One or more dependencies do not exist in the database.")
-				return
-			}
-		}
-
 		newTask := task.Task{
-			Description:  description,
-			Category:     category,
-			Priority:     task.Priority(priority),
-			DueDate:      due,
-			Dependencies: deps,
-			Completed:    false,
+			Description: description,
+			Category:    category,
+			Priority:    task.Priority(priority),
+			DueDate:     due,
+			Completed:   false,
 		}
 
 		err := repo.CreateTask(&newTask)
@@ -96,5 +72,4 @@ func init() {
 	AddCmd.Flags().StringVarP(&category, "category", "c", "", "Task category")
 	AddCmd.Flags().StringVarP(&priority, "priority", "p", "Medium", "Task priority (High, Medium, Low)")
 	AddCmd.Flags().StringVarP(&dueDate, "due", "d", "", "Due date (YYYY-MM-DD)")
-	AddCmd.Flags().StringVarP(&dependencies, "dependencies", "x", "", "Comma-separated list of dependency task IDs")
 }
