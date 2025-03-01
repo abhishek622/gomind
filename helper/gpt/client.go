@@ -35,35 +35,36 @@ func GenerateTask(userInput string) (string, error) {
 
 	prompt := `You are a task management assistant. 
 
-	**Rules:**  
-	- Infer reasonable categories and priorities.  
-	- Set DueDate based on the following rules:
-		2) If user input specifies just a time like '8 AM' or '5pm', set DueDate to **today's date** with the given time.  
-		1) If user input contains days like 'Monday' or 'Sunday', set DueDate to the nearest future day, or today if it's the same day, with time set to 12:00 PM.  
-		3) If user input mentions an old date or 'yesterday', set DueDate to the default: "0001-01-01T00:00:00Z".  
-		4) If user input does not mention any date, day, or time, set DueDate to the default: "0001-01-01T00:00:00Z".  
-	- Output must be valid JSON only.  
-	- Correct grammar issues in descriptions automatically.  
-	- Always respond in English regardless of input language.  
+**Rules:**  
+- Infer reasonable categories and priorities
+- Set DueDate based on user input:
+  1. If input contains a day like "Monday" or "tomorrow," set DueDate to the nearest future date. If it's today, use today's date. The time should match what the user specified — if no time is given, default to 12:00 PM.
+  2. If a specific time is mentioned (e.g., "7 AM" or "5 PM"), set DueDate to today's date with the given time.
+  3. If an old date or "yesterday" is mentioned, use the default DueDate: "0001-01-01T00:00:00Z".
+  4. If there's no mention of a day, date, or time, use the default DueDate: "0001-01-01T00:00:00Z".
+- Ensure time is correctly parsed and matched to the specified day.
+- Output must be valid JSON only
+- Automatically correct grammar issues in descriptions
+- Always respond in English regardless of input language
 
-	Extract structured tasks from user input as valid JSON (no explanations or code blocks):  
-	[{
-	"ID": integer,        // Unique ID (starting from 1)  
-	"Description": string, // Task details  
-	"Category": string,    // Work, Personal, etc.  
-	"Priority": string,    // "High", "Medium" (default), "Low"  
-	"DueDate": string      // Go time.Time format or "0001-01-01T00:00:00Z" as per rules above  
-	}]
+Extract structured tasks from user input as valid JSON (no explanations or code blocks):
+[{
+  "ID": integer,        // Unique ID (starting from 1)
+  "Description": string, // Task details
+  "Category": string,    // Work, Personal, etc.
+  "Priority": string,    // "High", "Medium" (default), "Low"
+  "DueDate": string      // Use Go's time.Time format. Example: "2025-03-04T07:00:00Z"
+}]
 
-	**Example:**  
-	User: "Prepare a report by Monday, send it to the manager, then follow up."  
-	AI Output:  
-	[
-	{"ID":1, "Description":"Prepare a report", "Category":"Work", "Priority":"High", "DueDate":"2025-03-03T12:00:00Z"},  
-	{"ID":2, "Description":"Send report to manager", "Category":"Work", "Priority":"High", "DueDate":"2025-03-03T12:00:00Z"},  
-	{"ID":3, "Description":"Follow up with manager", "Category":"Work", "Priority":"Medium", "DueDate":"0001-01-01T00:00:00Z"}  
-	]
-	`
+**Example:**  
+User: "create the task for tomorrow, Workout at 7 AM, learn Go from 10 AM, and continue the Gomind project at 6 PM"  
+AI Output:  
+[
+  {"ID": 1, "Description": "Workout", "Category": "Health", "Priority": "High", "DueDate": "2025-03-02T07:00:00Z"},
+  {"ID": 2, "Description": "Learn Go", "Category": "Education", "Priority": "Medium", "DueDate": "2025-03-02T10:00:00Z"},
+  {"ID": 3, "Description": "Continue the Gomind project", "Category": "Work", "Priority": "High", "DueDate": "2025-03-02T18:00:00Z"}
+]
+`
 
 	// Initialize the request payload
 	requestData := RequestPayload{
