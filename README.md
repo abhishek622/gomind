@@ -1,63 +1,67 @@
-# Task Manager CLI
+# GOMind CLI 🚀
 
-A command-line application built in Go to manage tasks efficiently. This project integrates with MongoDB for data storage, leverages AWANLLM for task generation, and uses the Cobra library to create a robust CLI interface. Tasks are displayed in a clean, tabular format for better readability.
+A simple command-line application built with `Go` for seamless task management. This project integrates with `MongoDB` for data storage, utilizes `AWANLLM` for AI-powered task generation, and leverages the `Cobra` library to create a user-friendly CLI interface. Tasks are displayed in a clean, tabular format for better readability using `text/tabwriter`.
 
-# PROJECT GOAL
 
-- [x] Read/write tasks from mongoDB (mongodb)
-- [x] Use AWANLLM to generate tasks
-- [x] Use cobra to build CLI (cobra)
-- [x] Printing data in tabular format (text/tabwriter)
-- [x] Print time in human readable format (timediff)
+## 📺 Demo
+![GOMind Demo](https://github.com/abhishek622/gomind/blob/main/assets/demo2.gif?raw=true)
 
-## DEMO
-![GOMind Demo](https://github.com/abhishek622/gomind/blob/main/assets/demo.gif?raw=true)
+---
 
-## Getting Started
+## 🚀 Getting Started
 
 ### Prerequisites
 
-- Go installed on your machine.
-- MongoDB instance running locally or remotely.
-- AWANLLM API key for generating tasks.
+Ensure you have the following installed and configured:
+
+- **Go** installed on your machine.
+- **MongoDB** running locally or remotely.
+- **AWANLLM API key** for task generation (using it because it's free 😅).
 
 ### Installation
 
-1. Clone the repository:
+1. **Clone the repository:**
    ```bash
    git clone https://github.com/abhishek622/gomind.git
+   cd gomind
    ```
-2. Set the environment variables:
+2. **Set up environment variables:**
+   Create a `.env` file and configure your MongoDB and AWANLLM API key.
    ```bash
-   # Set up your MongoDB table name
+   # MongoDB database name
    echo DB_NAME=your-table-name-here > .env
 
-   # Set up your MongoDB URI
-   echo MONGODB_URI=your-mongodb-uri-here > .env
+   # MongoDB URI
+   echo MONGODB_URI=your-mongodb-uri-here >> .env
 
-   # Set up your OpenAI key
-   echo "AWANLLM_API_KEY=your-key-here" > .env
+   # AWANLLM API Key
+   echo AWANLLM_API_KEY=your-key-here >> .env
    ```
-3. Build the application:
+3. **Build the application:**
    ```bash
    go build -o gomind main.go
    ```
-4. Use the CLI commands to manage tasks.
+4. **Run the CLI commands:**
    ```bash
-   ./gomind help # List of commands
+   ./gomind help                     # List all available commands
+
+   ./gomind add "Buy groceries"       # Add a new task
+
+   ./gomind list                     # View all tasks
+
+   ./gomind complete 1               # Mark a task as complete (ID: 1)
+
+   ./gomind del 1                    # Delete a task by ID (or use 'all' to clear all tasks)
+
+   ./gomind gen "Lunch at 4pm then study for 2 hours" # Generate tasks using AWANLLM
    ```
-   ```bash
-   ./gomind add "Buy groceries" # Add a task
-   ```
-   ```bash
-   ./gomind list # List all tasks
-   ```
-   ```bash
-   ./gomind complete 1 # Mark task as complete (ID: 1)
-   ```
-   ```bash
-   ./gomind del 1 # Delete a task (ID: 1 || all)
-   ```
-   ```bash
-   ./gomind gen "Lunch at 4pm after that study for 2hrs" # Generate a task using AWANLLM
-   ```
+
+---
+
+## 🐛 Bugs or Feature Requests
+
+Spotted a bug? Have a feature idea? Let’s build this together!
+
+- **Report issues:** Open a GitHub issue describing the bug or feature request.
+- **Suggest improvements:** If you have ideas to enhance the CLI, create a ticket.
+- **Contribute:** Pull requests are welcome! Let’s make task management smarter and smoother. 🚀
